@@ -19,19 +19,21 @@ name: NativeTest CI - GraalVM Native Image
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
     paths:
       - '.github/workflows/graalvm.yml'
       - 'reachability-metadata/src/**'
       - 'test/native/**'
 
+  push:
+  workflow_dispatch:
 jobs:
   build:
     if: github.repository == 'apache/shardingsphere-elasticjob'
     strategy:
       matrix:
-        java: [ '22.0.2' ]
-        os: [ 'ubuntu-latest' ]
+        java: ['22.0.2']
+        os: ['ubuntu-latest']
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4

@@ -19,8 +19,9 @@ name: Required - Check
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
+  push:
 
 concurrency:
   group: check-${{ github.workflow }}-${{ github.ref }}
