@@ -19,8 +19,9 @@ name: Required - Check
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
+  push:
 
 concurrency:
   group: check-${{ github.workflow }}-${{ github.ref }}
@@ -29,8 +30,8 @@ concurrency:
 jobs:
   check-checkstyle:
     name: Check - CheckStyle
-    if: github.repository == 'apache/shardingsphere-elasticjob'
-    runs-on: ubuntu-latest
+    if: always()
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
@@ -43,10 +44,17 @@ jobs:
       - name: Run CheckStyle
         run: ./mvnw checkstyle:check -Pcheck -T1C
 
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+      fail-fast: false
   check-spotless:
     name: Check - Spotless
-    if: github.repository == 'apache/shardingsphere-elasticjob'
-    runs-on: ubuntu-latest
+    if: always()
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
@@ -59,10 +67,17 @@ jobs:
       - name: Run Spotless
         run: ./mvnw spotless:check -Pcheck -T1C
 
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+      fail-fast: false
   check-license:
     name: Check - License
-    if: github.repository == 'apache/shardingsphere-elasticjob'
-    runs-on: ubuntu-latest
+    if: always()
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
@@ -74,3 +89,10 @@ jobs:
           cache: 'maven'
       - name: Run Apache Rat
         run: ./mvnw apache-rat:check -Pcheck -T1C
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+      fail-fast: false
