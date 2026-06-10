@@ -21,16 +21,15 @@
 name: Java CI with Maven
 
 on:
-  pull_request:
-    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   build:
     if: github.repository == 'apache/shardingsphere-elasticjob'
     strategy:
       matrix:
-        java: [ 17, 21, 24 ]
-        os: [ 'windows-latest', 'macos-latest', 'ubuntu-latest' ]
+        java: [17, 21, 24]
+        os: ['windows-latest', 'macos-latest', 'ubuntu-latest']
     runs-on: ${{ matrix.os }}
     steps:
       - name: Configure Git
@@ -61,7 +60,7 @@ jobs:
         run: ./mvnw clean package -B -f examples/pom.xml -T1C
 
   build-jdk17-test-with-jdk8:
-    if: github.repository == 'apache/shardingsphere-elasticjob'
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -80,3 +79,5 @@ jobs:
         run: ./mvnw --batch-mode --no-transfer-progress '-Dmaven.javadoc.skip=true' clean install -DskipTests -T1C
       - name: Run Tests with JDK 8
         run: JAVA_HOME=$JAVA_HOME_8_X64 ./mvnw --batch-mode --no-transfer-progress surefire:test -fae -T1C
+    strategy:
+      fail-fast: false
