@@ -39,6 +39,7 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Run CheckStyle
+        if: runner.os != 'Windows'
         run: mvn checkstyle:check -Pcheck -T1C
 
     strategy:
