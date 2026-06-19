@@ -39,7 +39,7 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Run CheckStyle
-        run: ./mvnw checkstyle:check -Pcheck -T1C
+        run: mvn checkstyle:check -Pcheck -T1C
 
     strategy:
       matrix:
@@ -62,7 +62,7 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Run Spotless
-        run: ./mvnw spotless:check -Pcheck -T1C
+        run: mvn spotless:check -Pcheck -T1C
 
     strategy:
       matrix:
@@ -82,7 +82,7 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Run Apache Rat
-        run: ./mvnw apache-rat:check -Pcheck -T1C
+        run: mvn apache-rat:check -Pcheck -T1C
     strategy:
       matrix:
         os: *id001
